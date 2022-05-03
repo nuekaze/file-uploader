@@ -20,10 +20,12 @@ html = '''
 </html>
 '''
 
+# Some settings
 upload_dir = '/storage/tempfiles'
+website = 'https://example.com/tempfiles'
 port = 8000
-i = 0
 
+i = 0
 def app(environ, start_response):
     global i
     response = ''
@@ -33,7 +35,7 @@ def app(environ, start_response):
         if fs.file:
             name = str(i).rjust(3, '0') + '.' + fs.filename.split('.')[1:][0]
             open(upload_dir + '/' + name, 'wb').write(fs.file.read())
-            response = html.replace('<!--RESULT-->', name)
+            response = html.replace('<!--RESULT-->', website + '/' + name)
             if i == 999:
                 i = 0
             else:
