@@ -21,8 +21,8 @@ html = '''
 '''
 
 # Some settings
-upload_dir = '/storage/tempfiles'
-website = 'https://example.com/tempfiles'
+upload_dir = '/storage/tempfiles/'
+website = 'https://example.com/tempfiles/'
 port = 8000
 
 i = 0
@@ -37,8 +37,8 @@ def app(environ, start_response):
             # Just some temporary name using a counter.
             name = str(i).rjust(3, '0') + '.' + fs.filename.split('.')[1:][0]
             
-            open(upload_dir + '/' + name, 'wb').write(fs.file.read())
-            response = html.replace('<!--RESULT-->', website + '/' + name)
+            open(upload_dir + name, 'wb').write(fs.file.read())
+            response = html.replace('<!--RESULT-->', '<a href="' + website + name + '">' + website + name + '</a>')
             
             # Increase counter.
             if i == 999:
