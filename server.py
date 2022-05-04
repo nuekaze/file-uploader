@@ -1,5 +1,6 @@
 from wsgiref.simple_server import make_server
 from cgi import FieldStorage
+import os
 
 html = '''
 <html>
@@ -25,7 +26,11 @@ upload_dir = '/storage/tempfiles/'
 website = 'https://example.com/tempfiles/'
 port = 8000
 
-i = 0
+# File counter
+i = int(os.environ['FILE_COUNTER'])
+if not i:
+    i = 0
+
 def app(environ, start_response):
     global i
     response = ''
@@ -45,6 +50,8 @@ def app(environ, start_response):
                 i = 0
             else:
                 i += 1
+            os.environ['FILE_COUNTER'] = str(i)
+
         else:
             response = html.replace('<!--RESULT-->', 'No file.')
 
